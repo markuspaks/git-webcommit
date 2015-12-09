@@ -11,14 +11,14 @@ Usage:
     exit 1
 fi
 
-# remove temporary file on exit
-trap 'rm -f /tmp/.git_ssh.$$' 0
+SCRIPTPATH="$( cd "$(dirname "$0")" ; pwd -P )"
+FILE=$SCRIPTPATH/git_ssh.$$
 
 if [ "$1" = "-i" ]; then
     SSH_KEY=$2; shift; shift
-    echo "ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i $SSH_KEY \$@" > /tmp/.git_ssh.$$
-    chmod +x /tmp/.git_ssh.$$
-    export GIT_SSH=/tmp/.git_ssh.$$
+    echo "ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i $SSH_KEY \$@" > $FILE 
+    chmod +x $FILE
+    export GIT_SSH=$FILE
 fi
 
 # in case the git command is repeated
@@ -26,3 +26,5 @@ fi
 
 # Run the git command
 git "$@"
+
+rm -f $FILE
