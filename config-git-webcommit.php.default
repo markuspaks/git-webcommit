@@ -35,3 +35,8 @@ $debug = false;
 
 $gitpath = 'git';
 $diffpath = 'diff';
+
+
+$gitauth = '';
+//  Use gitauth 'ssh' for SSH private key based authentication, put private keys to ssh directory and rename key to id_<$auth array key>
+//  $gitauth = 'ssh';
