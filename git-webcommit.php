@@ -1,7 +1,7 @@
 <?php
 	error_reporting (E_ALL);
 
-	require dirname (__FILE__) . '/config-git-webcommit.php';
+	require __DIR__.'/config-git-webcommit.php';
 
 	if ($authmethod === 'httpbasic')
 		$author = handle_basic_auth ();
@@ -9,7 +9,7 @@
 		$author = handle_htpasswd_auth ();
 
 	if ($gitauth === 'ssh') {
-		$gitpath = 'git.sh -i ssh/id_'.$_SERVER['PHP_AUTH_USER'].' '.$gitpath;
+		$gitpath = __DIR__.'/git.sh -i '.__DIR__.'/ssh/id_'.$_SERVER['PHP_AUTH_USER'].' '.$gitpath;
 	}
 
 	@ob_end_clean ();
