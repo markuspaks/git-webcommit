@@ -1016,7 +1016,7 @@ HERE;
 	}
 
 	function html_form_end ($something_to_commit = false, $hash = '') {
-		global $commit_message, $disable_push_pull;
+		global $commit_message, $disable_push_pull, $somethingstaged;
 
 		$something_to_commit = $something_to_commit ? 'true' : 'false'; 
 
@@ -1035,6 +1035,18 @@ $pushpullbuttons = <<<HERE
 HERE;
 		}
 
+		if (!$somethingstaged) {
+			$checkAllCheckboxes = <<<HERE
+  checkboxes = document.getElementsByClassName('checkbox');
+  for(var i=0, n=checkboxes.length;i<n;i++) {
+    checkboxes[i].checked = true;
+    staged_checked_changed++
+  }
+HERE;
+		} else {
+			$checkAllCheckboxes = '';
+		}
+
 return <<<HERE
 		</article>
 		<div class="fixed">${pushpullbuttons}
@@ -1045,8 +1057,13 @@ return <<<HERE
 			<textarea id="commit_message" name="commit_message">$commit_message</textarea>
 		</div>
 		</form>
-		<script>something_to_commit = $something_to_commit; enable_disable_buttons (); handle_commit_textarea ();</script>
-		
+		<script>
+			something_to_commit = $something_to_commit;
+			$checkAllCheckboxes
+			enable_disable_buttons ();
+			handle_commit_textarea ();
+		</script>
+
 HERE;
 	}
 
