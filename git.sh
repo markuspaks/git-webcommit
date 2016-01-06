@@ -27,4 +27,8 @@ fi
 # Run the git command
 git "$@"
 
+GIT_STATUS=$?
+
 rm -f $FILE
+
+exit $GIT_STATUS
